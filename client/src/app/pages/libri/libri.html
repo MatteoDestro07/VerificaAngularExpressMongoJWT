@@ -1,0 +1,96 @@
+<div class="page-wrapper">
+    <nav class="navbar">
+    <span class="navbar-brand">Gestione Libri</span>
+    <div class="navbar-right">
+      <select [(ngModel)]="filtroGeneri" id="select" (change)="cerca()">
+        <option value="0">Seleziona un genere</option>
+        <option value="Storico">Storico</option>
+        <option value="Fantascienza">Fantascienza</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Narrativa">Narrativa</option>
+        <option value="Giallo">Giallo</option>
+        <option value="Saggistica">Saggistica</option>
+      </select>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!--&lt;!&ndash; Barra azioni &ndash;&gt;-->
+    <div class="toolbar">
+        <button class="btn-secondary" (click)="loadAll()">↺ Tutti</button>
+        <button class="btn-primary" (click)="nuovoStudente()">➕ Nuovo libro</button>
+    </div>
+    
+    <!-- Form inserimento / modifica -->
+    @if (showForm) {
+    <div class="form-card">
+      <h3>{{ isEditing ? '✏️ Modifica studente' : '➕ Nuovo studente' }}</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Titolo *</label>
+            <input type="text" [(ngModel)]="formData.titolo" placeholder="Titolo" />
+          </div>
+          <div class="form-group">
+            <label>Genere *</label>
+            <input type="text" [(ngModel)]="formData.genere" placeholder="Genere" />
+          </div>
+          <div class="form-group">
+            <label>Autore</label>
+            <input type="text" [(ngModel)]="formData.autore" placeholder="Autore"/>
+          </div>
+          <div class="form-group">
+            <label>Pagine</label>
+            <input type="text" [(ngModel)]="formData.dettagli.pagine" placeholder="Pagine" />
+          </div>
+          <div class="form-group">
+            <label>Editore</label>
+            <input type="text" [(ngModel)]="formData.dettagli.editore" placeholder="Editore" />
+          </div>
+          <div class="form-group full-width">
+            <label>Premi vinti (separati da virgola)</label>
+            <input type="text" [(ngModel)]="formData.premi_vinti" placeholder="es. musica, sport" />
+          </div>
+          <div class="form-group full-width">
+            <label>Anno di Pubblicazione</label>
+            <input type="number" [(ngModel)]="corsiString" placeholder="es. 1980" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary" (click)="salva()">💾 Salva</button>
+          <button class="btn-secondary" (click)="annulla()">Annulla</button>
+        </div>
+      </div>
+    }
+
+
+    <!-- Lista studenti a card -->
+    <!--@if (loading) {
+    <div class="loading">Caricamento in corso...</div>
+    } @else if (students.length === 0) {
+    <div class="empty-state">Nessuno studente trovato.</div>
+    } @else {-->
+    <div class="students-grid">
+      @for (s of libri; track s._id) {
+        <div class="student-card">
+        <div class="card-header">
+            <span class="student-name">{{ s.titolo }}</span>
+            <span class="student-age">{{ s.genere }}</span>
+        </div>
+        <div class="card-body">
+            <p class="card-info">Autore: {{s.autore}}</p>
+            <p class="card-info">Premi: {{s.premi_vinti}}</p>  
+            <p class="card-info">Pagine: {{s.dettagli.pagine}}</p>
+            <p class="card-info">Editore: {{s.dettagli.editore}}</p>
+            <p class="card-info">Anno: {{s.dettagli.annoPubblicazione}}</p>
+        </div>
+        <div class="card-footer">
+            <!--<button class="btn-edit" (click)="modificaStudente(s)">✏️ Modifica</button>
+            <button class="btn-delete" (click)="elimina(s)">🗑️ Elimina</button>-->
+        </div>
+        </div>
+    }
+    </div>
+    
+  </main>
+</div>
+
